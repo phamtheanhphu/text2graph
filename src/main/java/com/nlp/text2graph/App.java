@@ -28,7 +28,7 @@ public class App {
 		LexicalizedParser lp = LexicalizedParser.loadModel("edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz");
 		lp.setOptionFlags(new String[] { "-maxLength", "80", "-retainTmpSubcategories" });
 
-		String sentence = "The quick brown fox jumps over the lazy dog";
+		String sentence = "mouse ate cat";
 		Tree parse = lp.parse(sentence);
 
 		System.out.println();
@@ -45,6 +45,7 @@ public class App {
 		for (TypedDependency tdlElement : tdl) {
 
 			try {
+				
 				String startNodeLabel = tdlElement.gov().toString();
 				String endNodeLabel = tdlElement.dep().toString();
 				String relationLabel = tdlElement.reln().toString();

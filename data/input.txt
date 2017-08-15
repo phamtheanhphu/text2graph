@@ -1,0 +1,5 @@
+Sprites are informational symbols that you can add to the graph display. Internally, they are merely attributes stored on nodes, edges or the graph itself. However these attributes have a specific form understood by the viewers that allow to describe their type and their position.
+
+A sprite can be freely positioned on the viewer canvas as a node would be. They allow to place symbols, labels, icons, shapes in the graph rendering. However an interesting property of sprites consist in “attaching” them to a node or edge. When attached, their position is expressed relative to the graph element they are attached to.
+
+For example a sprite attached to a node uses “spherical” coordinates to describe its position. Its first coordinate is a radius (a distance from the node center), its second coordinate and angle of rotation around the node center in the XY plane, and its optional third coordinate describe an angle around the node center in the XZ plane (the Z axis going “out” of the screen, perpendicular to it).
