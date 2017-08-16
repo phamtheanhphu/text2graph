@@ -5,9 +5,13 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.view.Viewer;
+import org.graphstream.ui.view.ViewerListener;
+import org.graphstream.ui.view.ViewerPipe;
 
 import com.nlp.text2graph.adapter.file.TextFileAdapter;
 
@@ -81,7 +85,7 @@ public class AppDoc2Graph {
 				} catch (Exception e) {
 					continue;
 				}
-
+				
 				System.out.println(count + " - " + tdl.gov() + " - " + tdl.reln() + " - " + tdl.dep());
 				count++;
 
@@ -92,8 +96,50 @@ public class AppDoc2Graph {
 		}
 
 		dGraph.addAttribute("ui.stylesheet", generalStyleSheet);
-		Viewer viewer = dGraph.display();
-		viewer.enableAutoLayout();
+		new GraphNodeClick(dGraph);
+
+	}
+
+	public static class GraphNodeClick implements ViewerListener {
+
+		// private JFrame mainFrame;
+		private Viewer viewer;
+		private boolean loopPump = true;
+
+		public GraphNodeClick(Graph graph) {
+
+			// TODO Auto-generated constructor stub
+			this.viewer = graph.display();
+			this.viewer.enableAutoLayout();
+			// this.view = this.viewer.addDefaultView(false);
+			ViewerPipe viewerPipe = viewer.newViewerPipe();
+			viewerPipe.addViewerListener(this);
+			viewerPipe.addSink(graph);
+
+			while (loopPump) {
+				viewerPipe.pump();
+			}
+
+		}
+
+		@Override
+		public void buttonPushed(String nodeId) {
+			// TODO Auto-generated method stub
+			JOptionPane.showMessageDialog(this.viewer.getDefaultView(), "Bạn vừa click vào đỉnh [" + nodeId + "]",
+					"Graph's clicking", JOptionPane.INFORMATION_MESSAGE, null);
+		}
+
+		@Override
+		public void buttonReleased(String arg0) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void viewClosed(String arg0) {
+			// TODO Auto-generated method stub
+			loopPump = false;
+
+		}
 
 	}
 
